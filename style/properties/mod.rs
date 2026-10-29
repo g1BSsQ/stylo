@@ -1840,3 +1840,19 @@ impl<'a> Iterator for TransitionPropertyIterator<'a> {
         }
     }
 }
+
+#[cfg(all(test, feature = "servo"))]
+mod counter_set_registration_tests {
+    #[test]
+    fn counter_set_has_servo_registration() {
+        let descriptors = include_str!("longhands.toml");
+        let counter_set = descriptors
+            .split_once("[counter-set]\n")
+            .unwrap()
+            .1
+            .split_once("\n[")
+            .unwrap()
+            .0;
+        assert!(counter_set.contains("servo_pref = \"layout.unimplemented\""));
+    }
+}
